@@ -1,11 +1,8 @@
 def find_the_candidates(nums)
-	last_idx = nums.length - 1
-	current_idx = 0
-	while current_idx < last_idx
+	for current_idx in (0...nums.length - 1) do
 		current_val = nums[current_idx]
 		wanted_val = 2020 - current_val
-		return [current_val, wanted_val] if nums[(current_idx + 1)..last_idx].include?(wanted_val)
-		current_idx += 1
+		return [current_val, wanted_val] if nums[(current_idx + 1)..].include?(wanted_val)
 	end
 end
 
