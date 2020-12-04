@@ -15,13 +15,9 @@ def count_the_trees(right, down)
   counter
 end
 
-def product_of_all_paths
-  product = 1
-  [[1,1], [3,1], [5,1], [7,1], [1,2]].each do |arr|
-    product = product * count_the_trees(arr[0], arr[1])
-  end
-  product
+def product_of_all_paths(paths)
+  paths.map{|arr| count_the_trees(arr[0], arr[1])}.inject(:*)
 end
 
-p product_of_all_paths
+p product_of_all_paths([[1,1], [3,1], [5,1], [7,1], [1,2]])
 
