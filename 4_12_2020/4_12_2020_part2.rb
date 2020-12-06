@@ -3,21 +3,18 @@ def count_valid_passports
 
   File.open("./4_12_2020.txt").each_line("\n\n") do |line|
     fields_with_values =  get_fields_with_values(line)
-    num_of_fields = fields_with_values.length
-    counter += 1 if num_of_fields == 7 && values_are_valid?(fields_with_values)
+    has_all_fields = fields_with_values.length == 7
+    values_are_valid = fields_with_values.all? { |k, v| check_validity(k, v) }
+
+    counter += 1 if has_all_fields && values_are_valid
   end
 
   counter
 end
 
 def get_fields_with_values(line)
-  fields = {}
-  key_value_pairs = line.tr("\n", ' ').split(' ')
-  key_value_pairs.each do |str|
-    key, _, value = str.match(/([a-z]+)(:)(.+)/).captures
-    fields[key] = value if key != 'cid'
-  end
-
+  fields = Hash[*(line.tr(":\n", '  ').split(' '))]
+  fields.delete('cid')
   fields
 end
 
@@ -45,14 +42,6 @@ def check_validity(key, value)
   when 'pid'
     value.length == 9 && value[/\d+/] == value
   end
-end
-
-def values_are_valid?(fields)
-  fields.each do |k, v|
-    return false unless check_validity(k, v)
-  end
-
-  true
 end
 
 p count_valid_passports
